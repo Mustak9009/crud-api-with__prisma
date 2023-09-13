@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String
+  password String
+  tweets   Tweet[]
+  @@map("user")
+}
+
+model Tweet {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  tweet    String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  user     User     @relation(fields: [userID], references: [id], onDelete: Cascade)
+  userID   String   @db.ObjectId
+  @@map("tweet")
+}
