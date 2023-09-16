@@ -2,10 +2,11 @@ import {NextRequest,NextResponse} from 'next/server';
 import {prisma} from '@/prisma';
 import {ConnectDB} from '@/utils';
 ConnectDB();
-export async function GET(req:NextRequest){
+
+export async function GET(req:NextRequest,params:{params:{id:string}}){
     try{
-        const user = await prisma.user.findMany({include:{tweets:true,_count:true}});
-        return NextResponse.json({user},{status:200});
+        const tweet = await prisma.tweet.findFirst({where:{id:params.params.id}});
+        return NextResponse.json({tweet},{status:200});
     }catch(err){
         console.log(err);
         return NextResponse.json({error:err},{status:500});
