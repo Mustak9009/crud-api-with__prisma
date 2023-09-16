@@ -9,8 +9,10 @@ export async function POST(req: NextRequest) {
     const slat = bcryptjs.genSaltSync(10);
     const { name, email, password } = reqBody;
     if(!name && !email && !password){
-        return NextResponse.json({Message:"Require details ...!!"}, { status: 400 });
+      return NextResponse.json({Message:"Require details ...!!"}, { status: 422 }); //unprocessable entity
     }
+    const isUserExist = await prisma.user.findFirst({where:{email}});
+    if(isUserExist) return NextResponse.json({Message:"User already exist ... please signUP"},{status:201}); //201 => shows user alredy created ...
     const passwordHash = await bcryptjs.hash(password,slat);
     const user = await prisma.user.create({
       data: {

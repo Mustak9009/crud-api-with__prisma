@@ -13,9 +13,10 @@ datasource db {
 model User {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  email    String
+  email    String  @unique
   password String
   tweets   Tweet[]
+
   @@map("user")
 }
 
@@ -26,5 +27,6 @@ model Tweet {
   updateAt DateTime @updatedAt
   user     User     @relation(fields: [userID], references: [id], onDelete: Cascade)
   userID   String   @db.ObjectId
+
   @@map("tweet")
 }
