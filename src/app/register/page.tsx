@@ -1,8 +1,9 @@
 'use client'
 import React, { useState } from "react";
 import { register } from "@/helper/apiHelper";
-export default function page() {
+import Link from "next/link";
 
+export default function page() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -92,6 +93,7 @@ export default function page() {
               Sign in
             </button>
           </div>
+          <p>Already have  <Link href={'/'} title="create a account" className="text-blue-500 underline">account</Link></p>
         </form>
       </div>
     </div>
